@@ -28,7 +28,7 @@ const BASE_URL = 'https://www.googleapis.com/youtube/v3/search?';
 const fetchVideos = function(searchTerm, callback) {
   const specificUrl = `${BASE_URL}key=${API_KEY}&part=snippet&q=${searchTerm}`;
   const jsonReturn = $.getJSON(specificUrl, callback);
-  // console.log(aGlobal);
+  console.log(jsonReturn);
   // console.log(jsonReturn["responseJSON"].items);
   return jsonReturn.responseJSON;
 };
