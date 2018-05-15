@@ -30,11 +30,7 @@ const fetchVideos = function(searchTerm, callback) {
     key: API_KEY,
     q: searchTerm
   };
-  // const specificUrl = `${BASE_URL}key=${API_KEY}&part=snippet&q=${searchTerm}`;
   $.getJSON(BASE_URL, query, response => callback(response));
-  // console.log(jsonReturn.responseJSON);
-  // console.log(jsonReturn["responseJSON"].items);
-  // return jsonReturn.responseJSON;
 };
 
 // TASK:
@@ -46,9 +42,10 @@ const fetchVideos = function(searchTerm, callback) {
 // TEST IT! Grab an example API response and send it into the function - make sure
 // you get back the object you want.
 const decorateResponse = function(response) {
+  // console.log(response);
   const modified = response.items.map(item => {
     return {
-      id: item.id.videoId,
+      id: item.id.videoId ? item.id.videoId : (item.id.playlistId ? item.id.playlistId : (item.id.channelId ? item.id.channelId : undefined)),
       title: item.snippet.title,
       thumbnail: item.snippet.thumbnails.default.url
     };
@@ -77,7 +74,8 @@ const addVideosToStore = function(videos) {
   for(let i=0; i<videos.length; i++) {
     store.videos.push(videos[i]);
   }
-  console.log(store);
+  // console.log(store);
+  render();
 };
 
 // TASK:
@@ -86,7 +84,12 @@ const addVideosToStore = function(videos) {
 // 3. Add your array of DOM elements to the appropriate DOM element
 // TEST IT!
 const render = function() {
+  let resultString = '';
+  for(let i=0; i<store.videos.length; i++) {
+    resultString += generateVideoItemHtml(store.videos[i]);
+  }
 
+  $('.results').html(resultString);
 };
 
 // TASK:
