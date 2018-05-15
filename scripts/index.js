@@ -1,5 +1,5 @@
 const API_KEY = 'AIzaSyDoc3WAt6smv2DA19efxCdm_S0QvgIj7Hg';
-
+// let aGlobal = {};
 /*
   We want our store to hold a `videos` array of "decorated" objects - i.e. objects that
   have been transformed into just the necessary data to display on our page, compared to the large
@@ -18,7 +18,7 @@ const store = {
 
 // TASK: Add the Youtube Search API Base URL here:
 // Documentation is here: https://developers.google.com/youtube/v3/docs/search/list#usage
-const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
+const BASE_URL = 'https://www.googleapis.com/youtube/v3/search?';
 
 // TASK:
 // 1. Create a `fetchVideos` function that receives a `searchTerm` and `callback`
@@ -26,9 +26,11 @@ const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
 // 3. Make a getJSON call using the query object and sending the provided callback in as the last argument
 // TEST IT! Execute this function and console log the results inside the callback.
 const fetchVideos = function(searchTerm, callback) {
-  $.getJSON(BASE_URL, {'q': 'surfing', 'part': 'snippet', 'maxresults': '25'}, function(json) {
-      console.log(json);
-  });
+  const specificUrl = `${BASE_URL}key=${API_KEY}&part=snippet&q=${searchTerm}`;
+  const jsonReturn = $.getJSON(specificUrl, callback);
+  // console.log(aGlobal);
+  // console.log(jsonReturn["responseJSON"].items);
+  return jsonReturn.responseJSON;
 };
 
 // TASK:
@@ -80,11 +82,17 @@ const render = function() {
 //   g) Inside the callback, run the `render` function 
 // TEST IT!
 const handleFormSubmit = function() {
-
+  $('form').submit(function(event) {
+    event.preventDefault();
+    const searchTerm = $('input#search-term').val();
+    $('input#search-term').val('');
+    const query = fetchVideos(searchTerm);
+  });
 };
 
 // When DOM is ready:
 $(function () {
   // TASK:
   // 1. Run `handleFormSubmit` to bind the event listener to the DOM
+  handleFormSubmit();
 });
