@@ -10,7 +10,6 @@ const API_KEY = 'AIzaSyDoc3WAt6smv2DA19efxCdm_S0QvgIj7Hg';
     title: 'Cats dancing the Macarena',
     thumbnail: 'https://img.youtube.com/some/thumbnail.jpg'
   }
-
 */
 const store = {
   videos: []
